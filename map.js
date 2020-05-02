@@ -8,6 +8,7 @@ export function createMap(){
   let options = {
       center: {lat: 40.762146, lng: -111.8940}, // Missoula, MT
       zoom: 10,
+      mapTypeId: google.maps.MapTypeId.TERRAIN
       // mapTypeId: 'terrain' //This is optional and changes the type of google map shown.
   };
   //Create a new google map object
