@@ -72,8 +72,8 @@ export function createMap(data){
             latLon = projection.fromLatLngToDivPixel(latLon);
 
             return d3.select(this)
-                .style("left", (latLon.x + padding) + "px")
-                .style("top", (latLon.y + padding) + "px");
+                .style("left", (latLon.x - padding) + "px")
+                .style("top", (latLon.y - padding) + "px");
         }
     };
 
