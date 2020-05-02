@@ -1,0 +1,23 @@
+#map {
+  max-height:800px;
+  max-width:800px;
+  height:100%;
+}
+
+.sensors {
+    position: absolute;
+}
+
+.sensors svg {
+    width: 60px;
+    height: 20px;
+    font: 10px sans-serif;
+    position: absolute;
+}
+/* Optional: Makes the sample page fill the window. */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
