@@ -7,7 +7,7 @@ from urllib3.util.retry import Retry
 http = requests.Session()
 retries = Retry(total=5, backoff_factor=0.1, status_forcelist=[500,502,503,504])
 http.mount('http://', HTTPAdapter(max_retries=retries))
-purpleURL = "https://www.purpleair.com/json?exclude=true&nwlat=40.0908087545329&selat=39.333365574877405&nwlng=-105.99661612458355&selng=-104.01907706208355"
+purpleURL = "https://www.purpleair.com/json?exclude=true&nwlat=46.05284656083754&selat=43.37765149413136&nwlng=-96.94871225236244&selng=-89.38590652642635"
 sensors=http.get(url=purpleURL).json()['results']
 time.sleep(0.5)
 yearList={}
@@ -31,5 +31,5 @@ for year in range(2019,2020):
 						entry[l[label]]=f[label]
 				monthEntries.append(entry)
 		yearList[f"{year}-{month}-01"]=monthEntries
-with open('./denver.json', 'w') as fp:
+with open('./minneapolis.json', 'w') as fp:
   	json.dump(yearList, fp, indent=4)
