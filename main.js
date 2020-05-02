@@ -1,5 +1,7 @@
 import {createMap} from './map.js'
 import {createLineChart} from './lineChart.js'
+import * as d3 from "d3";
+
 
 d3.json("data/slc.json").then(function(slcData){
   d3.json("data/denver.json").then(function(denverData){

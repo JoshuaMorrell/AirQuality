@@ -1,4 +1,5 @@
 // 2. Use the margin convention practice
+import * as d3 from "d3";
 
 
 export function createLineChart(slcData, denverData, laData, minneapolisData)
