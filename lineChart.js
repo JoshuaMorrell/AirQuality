@@ -1,5 +1,7 @@
 // 2. Use the margin convention practice
 import * as d3 from "d3";
+import {createMap} from './map.js'
+
 
 
 export function createLineChart(slcData, denverData, laData, minneapolisData)
@@ -114,14 +116,14 @@ export function createLineChart(slcData, denverData, laData, minneapolisData)
       .call(d3.axisLeft(yScale));
 
 
-  addLine(svg, line, xScale, yScale, margin, width, height, slcMonthly, 'slcClass')
-  addLine(svg, line, xScale, yScale, margin, width, height, denverMonthly, 'denverClass')
-  addLine(svg, line, xScale, yScale, margin, width, height, laMonthly, 'laClass')
-  addLine(svg, line, xScale, yScale, margin, width, height, minneapolisMonthly, 'minneapolisClass')
+  addLine(svg, line, xScale, yScale, margin, width, height, slcMonthly, slcData,  'slcClass', 40.7618, -111.891)
+  addLine(svg, line, xScale, yScale, margin, width, height, denverMonthly, denverData,  'denverClass', 39.7392, -104.99)
+  addLine(svg, line, xScale, yScale, margin, width, height, laMonthly, laData,  'laClass', 34.05, -118.24)
+  addLine(svg, line, xScale, yScale, margin, width, height, minneapolisMonthly, minneapolisData, 'minneapolisClass', 44.978, -93.265)
 
 }
 
-function addLine(svg, line, xScale, yScale, margin, width, height, dataset, className)
+function addLine(svg, line, xScale, yScale, margin, width, height, dataset, dataToPass, className, lat, lng)
 {
 
   svg.append("path")
@@ -130,14 +132,53 @@ function addLine(svg, line, xScale, yScale, margin, width, height, dataset, clas
       .attr("d", line);
 
   svg.selectAll(".dot")
-      .data(dataset)
+    .data(dataset)
     .enter().append("circle")
       .attr("class", "dot" + className)
       .attr("cx", function(d, i) { return xScale(i) })
       .attr("cy", function(d) { return yScale(d) })
       .attr("r", 5)
-        .on("mouseover", function(a, b, c) {
-          console.log(a)
-          this.attr('class', 'focus')
+        .on("click", function(data, i) {
+          console.log(i);
+          let monthString = '';
+          switch(i){
+            case 0:
+              monthString = '2019-01-01';
+              break;
+            case 1:
+              monthString = '2019-02-01';
+              break;
+            case 2:
+              monthString = '2019-03-01';
+              break;
+            case 3:
+              monthString = '2019-04-01';
+              break;
+            case 4:
+              monthString = '2019-05-01';
+              break;
+            case 5:
+              monthString = '2019-06-01';
+              break;
+            case 6:
+              monthString = '2019-07-01';
+              break;
+            case 7:
+              monthString = '2019-08-01';
+              break;
+            case 8:
+              monthString = '2019-09-01';
+              break;
+            case 9:
+              monthString = '2019-10-01';
+              break;
+            case 10:
+              monthString = '2019-11-01';
+              break;
+            case 11:
+              monthString = '2019-12-01';
+              break;
+          }
+          createMap(dataToPass, monthString, lat, lng);
       })
 }

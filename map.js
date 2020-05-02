@@ -1,13 +1,15 @@
 import * as d3 from "d3";
 
-export function createMap(data){
+export function createMap(data, date, latitude, longitude){
+
+  d3.select("#map").selectAll('*').remove();
 
   //Create the overlay that we will draw on
   let overlay = new google.maps.OverlayView();
 
   //The second parameter we want to use is the zoom and center(lat and lng) options for the map
   let options = {
-      center: {lat: 40.762146, lng: -111.8940}, // Missoula, MT
+      center: {lat: latitude, lng: longitude}, // Missoula, MT
       zoom: 10,
       mapTypeId: google.maps.MapTypeId.TERRAIN
       // mapTypeId: 'terrain' //This is optional and changes the type of google map shown.
@@ -31,14 +33,14 @@ export function createMap(data){
             padding = 10;
 
         let circleScale = d3.scaleLinear()
-            .domain([d3.min(d3.range(0, 416), d => data["2019-01-01"][d]["PM1.0 (ATM)"]),
-                d3.max(d3.range(0, 416), d => data["2019-01-01"][d]["PM1.0 (ATM)"])])
+            .domain([d3.min(d3.range(0, data[date].length), d => data[date][d]["PM1.0 (ATM)"]),
+                d3.max(d3.range(0, data[date].length), d => data[date][d]["PM1.0 (ATM)"])])
             .range([2, 7]).clamp(true);
 
         // Draw each marker as a separate SVG element.
         // We could use a single SVG, but what size would it have?
         let marker = layer.selectAll('svg')
-            .data(d3.range(0, 416));
+            .data(d3.range(0, data[date].length));
 
         let markerEnter = marker.enter().append("svg");
 
@@ -55,7 +57,7 @@ export function createMap(data){
 
         // style the circle
         marker.select("circle")
-            .attr("r", d => circleScale(data["2019-01-01"][d]["PM1.0 (ATM)"]))
+            .attr("r", d => circleScale(data[date][d]["PM1.0 (ATM)"]))
             .attr("cx", padding)
             .attr("cy", padding)
             .style('opacity', .8)
@@ -67,7 +69,7 @@ export function createMap(data){
         //transforms the markers to the right
         // lat / lng using the projection from google maps
         function transform(d) {
-            let latLon = new google.maps.LatLng(data["2019-01-01"][d]["lat"], data["2019-01-01"][d]["lon"]);
+            let latLon = new google.maps.LatLng(data[date][d]["lat"], data[date][d]["lon"]);
 
             latLon = projection.fromLatLngToDivPixel(latLon);
 
