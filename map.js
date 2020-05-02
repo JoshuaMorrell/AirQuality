@@ -13,7 +13,7 @@ export function createMap(){
   //Create a new google map object
   let map = new google.maps.Map(d3.select("#map").node(), options);
 
-  d3.json("data.json").then(function(data){
+  d3.json("./data/slc.json").then(function(data){
 
     // Add the container when the overlay is added to the map.
     overlay.onAdd = function () {
