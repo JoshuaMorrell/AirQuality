@@ -1,5 +1,5 @@
 
-export function createMap(){
+export function createMap(data){
 
   //Create the overlay that we will draw on
   let overlay = new google.maps.OverlayView();
@@ -13,80 +13,73 @@ export function createMap(){
   //Create a new google map object
   let map = new google.maps.Map(d3.select("#map").node(), options);
 
-  d3.json("data.json").then(function(data){
+  // Add the container when the overlay is added to the map.
+  overlay.onAdd = function () {
 
-    // Add the container when the overlay is added to the map.
-    overlay.onAdd = function () {
-        console.log("adding")
-        console.log(this.getPanes().overlayMouseTarget)
+      let layer = d3.select(this.getPanes().overlayMouseTarget).append("div")
+          .attr("class", "sensors");
 
-        let layer = d3.select(this.getPanes().overlayMouseTarget).append("div")
-            .attr("class", "sensors");
+      overlay.onRemove = function () {
+          d3.select('.sensors').remove();
+      };
 
-        overlay.onRemove = function () {
-            d3.select('.sensors').remove();
-        };
+      overlay.draw = function () {
 
-        overlay.draw = function () {
+        let projection = this.getProjection(),
+            padding = 10;
 
-            console.log('drawing')
+        let circleScale = d3.scaleLinear()
+            .domain([d3.min(d3.range(0, 416), d => data["2019-01-01"][d]["PM1.0 (ATM)"]),
+                d3.max(d3.range(0, 416), d => data["2019-01-01"][d]["PM1.0 (ATM)"])])
+            .range([2, 7]).clamp(true);
 
-            let projection = this.getProjection(),
-                padding = 10;
+        // Draw each marker as a separate SVG element.
+        // We could use a single SVG, but what size would it have?
+        let marker = layer.selectAll('svg')
+            .data(d3.range(0, 416));
 
-            let circleScale = d3.scaleLinear()
-                .domain([d3.min(d3.range(0, 416), d => data["2019-01-01"][d]["PM1.0 (ATM)"]),
-                    d3.max(d3.range(0, 416), d => data["2019-01-01"][d]["PM1.0 (ATM)"])])
-                .range([2, 7]).clamp(true);
+        let markerEnter = marker.enter().append("svg");
 
-            // Draw each marker as a separate SVG element.
-            // We could use a single SVG, but what size would it have?
-            let marker = layer.selectAll('svg')
-                .data(d3.range(0, 416));
+        // add the circle
+        markerEnter.append("circle");
 
-            let markerEnter = marker.enter().append("svg");
+        marker.exit().remove();
 
-            // add the circle
-            markerEnter.append("circle");
+        marker = marker.merge(markerEnter);
 
-            marker.exit().remove();
+        marker
+            .each(transform)
+            .attr("class", "marker");
 
-            marker = marker.merge(markerEnter);
+        // style the circle
+        marker.select("circle")
+            .attr("r", d => circleScale(data["2019-01-01"][d]["PM1.0 (ATM)"]))
+            .attr("cx", padding)
+            .attr("cy", padding)
+            .style('opacity', .8)
+            .attr('fill', d => {
+                return 'cornflowerblue';
+            })
+            .on('click', d => console.log(d));
 
-            marker
-                .each(transform)
-                .attr("class", "marker");
+        //transforms the markers to the right
+        // lat / lng using the projection from google maps
+        function transform(d) {
+            let latLon = new google.maps.LatLng(data["2019-01-01"][d]["lat"], data["2019-01-01"][d]["lon"]);
 
-            // style the circle
-            marker.select("circle")
-                .attr("r", d => circleScale(data["2019-01-01"][d]["PM1.0 (ATM)"]))
-                .attr("cx", padding)
-                .attr("cy", padding)
-                .style('opacity', .8)
-                .attr('fill', d => {
-                    return 'cornflowerblue';
-                })
-                .on('click', d => console.log(d));
+            latLon = projection.fromLatLngToDivPixel(latLon);
 
-            //transforms the markers to the right
-            // lat / lng using the projection from google maps
-            function transform(d) {
-                let latLon = new google.maps.LatLng(data["2019-01-01"][d]["lat"], data["2019-01-01"][d]["lon"]);
-
-                latLon = projection.fromLatLngToDivPixel(latLon);
-
-                return d3.select(this)
-                    .style("left", (latLon.x + padding) + "px")
-                    .style("top", (latLon.y + padding) + "px");
-            }
-        };
+            return d3.select(this)
+                .style("left", (latLon.x + padding) + "px")
+                .style("top", (latLon.y + padding) + "px");
+        }
     };
 
-    console.log("binding")
-
     // Bind our overlay to the map…
-    overlay.setMap(map);
 
-  });
+  };
+
+  overlay.setMap(map);
+
 
 }

@@ -8,6 +8,39 @@
     position: absolute;
 }
 
+.slcClass{
+  fill:none;
+  stroke:cornflowerblue;
+}
+
+.laClass{
+  fill:none;
+  stroke:red;
+}
+
+.denverClass{
+  fill:none;
+  stroke:green;
+}
+
+.minneapolisClass{
+  fill:none;
+  stroke:orange;
+}
+
+.dotslcClass{
+  fill:cornflowerblue;
+}
+
+.dotlaClass{
+  fill:red;
+}
+.dotdenverClass{
+  fill:green;
+}
+.dotminneapolisClass{
+  fill:orange;
+}
 .sensors svg {
     width: 60px;
     height: 20px;
