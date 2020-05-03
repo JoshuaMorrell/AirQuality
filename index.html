@@ -3,11 +3,29 @@
   <head>
     <meta charset="utf-8" />
     <title>Air Quality</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
   </head>
   <body>
+
+    <div id='dropdownDiv'>
+      <select class = "selectpicker col-xs-2 col-sm-2 col-md-2 col-lg-2" data-width=200px id='pdLevel'>
+        <option value="PM1.0 (ATM)">PM 1.0</option>
+        <option value="PM2.5 (ATM)" selected>PM 2.5</option>
+        <option value="PM10.0 (ATM)">PM 10.0</option>
+      </select>
+    </div>
     <div id="map"></div>
+
     <div id="lineChart"></div>
+    <div id="scatterplot"></div>
+
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWNhA-rVGoeMhPy5iUWkYklNvxp5nuEbA"></script>
     <script type="module" src="./bundle.js" crossorigin="anonymous"></script>
   </body>

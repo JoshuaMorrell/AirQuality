@@ -1,0 +1,84 @@
+#map {
+  position:relative;
+  max-height:45%;
+  max-width:100%;
+  height:100%;
+  margin: 20px;
+}
+
+#lineChart {
+  position:relative;
+  float:left;
+  max-height:50%;
+  max-width:50%;
+  height:50%;
+  width:50%;
+}
+
+#scatterplot {
+  position:relative;
+  float:right;
+  max-height:50%;
+  max-width:50%;
+  height:50%;
+  width:50%;
+}
+
+.sensors {
+    position: absolute;
+}
+
+#dropdownDiv {
+  width:1000px;
+  z-index:100;
+  position:absolute;
+  top:50%;
+  left:5%;
+}
+
+.slcClass{
+  fill:none;
+  stroke:cornflowerblue;
+}
+
+.laClass{
+  fill:none;
+  stroke:red;
+}
+
+.denverClass{
+  fill:none;
+  stroke:green;
+}
+
+.minneapolisClass{
+  fill:none;
+  stroke:orange;
+}
+
+.dotslcClass{
+  fill:cornflowerblue;
+}
+
+.dotlaClass{
+  fill:red;
+}
+.dotdenverClass{
+  fill:green;
+}
+.dotminneapolisClass{
+  fill:orange;
+}
+.sensors svg {
+    width: 60px;
+    height: 20px;
+    font: 10px sans-serif;
+    position: absolute;
+}
+/* Optional: Makes the sample page fill the window. */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
