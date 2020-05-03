@@ -116,6 +116,31 @@ export function createLineChart(slcData, denverData, laData, minneapolisData, pm
       .attr("class", "y axis")
       .call(d3.axisLeft(yScale));
 
+      // text label for the x axis
+  svg.append("text")
+      .attr("transform",
+            "translate(" + (width/2) + " ," +
+                           (height + margin.top - 10) + ")")
+      .style("text-anchor", "middle")
+      .text("Months");
+
+      // text label for the y axis
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left)
+        .attr("x",0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text(pmLevel.substring(0,6));
+
+    svg.append("circle").attr("cx",25).attr("cy",80).attr("r", 5).style("fill", "#52BE80")
+    svg.append("circle").attr("cx",25).attr("cy",60).attr("r", 5).style("fill", "#E74C3C")
+    svg.append("circle").attr("cx",25).attr("cy",40).attr("r", 5).style("fill", "#F1C40F")
+    svg.append("circle").attr("cx",25).attr("cy",20).attr("r", 5).style("fill", "#2980B9")
+    svg.append("text").attr("x", 30).attr("y", 80).text("Denver").style("font-size", "13px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", 30).attr("y", 60).text("Los Angeles").style("font-size", "13px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", 30).attr("y", 40).text("Minneapolis").style("font-size", "13px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", 30).attr("y", 20).text("Salt Lake City").style("font-size", "13px").attr("alignment-baseline","middle")
 
   addLine(svg, line, xScale, yScale, margin, width, height, slcMonthly, slcData,  'slcClass', 40.7618, -111.891)
   addLine(svg, line, xScale, yScale, margin, width, height, denverMonthly, denverData,  'denverClass', 39.7392, -104.99)

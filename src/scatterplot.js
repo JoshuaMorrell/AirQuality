@@ -57,6 +57,23 @@ export function createScatterplot(data, date, latitude, longitude, pmLevel)
   svg.append("g")
     .call(d3.axisLeft(y));
 
+    // text label for the x axis
+svg.append("text")
+    .attr("transform",
+          "translate(" + (width/2) + " ," +
+                         (height + margin.top - 10) + ")")
+    .style("text-anchor", "middle")
+    .text("Elevation");
+
+    // text label for the y axis
+  svg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr("x",0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text(pmLevel.substring(0,6));
+
   // Add dots
   svg.append('g')
     .selectAll("dot")
