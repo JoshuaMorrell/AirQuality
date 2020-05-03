@@ -60,41 +60,41 @@
 
 .slcClass{
   fill:none;
-  stroke:#8dd3c7;
+  stroke:#52BE80;
 }
 
 .laClass{
   fill:none;
-  stroke:#bebada;
+  stroke:#F1C40F;
 }
 
 .denverClass{
   fill:none;
-  stroke:#fb8072;
+  stroke:#2980B9;
 }
 
 .minneapolisClass{
   fill:none;
-  stroke:#ffed6f;
+  stroke:#E74C3C;
 }
 
 .dotslcClass{
-  fill:#8dd3c7;
+  fill:#52BE80;
   opacity: .9;
 
 }
 
 .dotlaClass{
-  fill:#bebada;
+  fill:#F1C40F;
   opacity: .9;
 }
 .dotdenverClass{
-  fill:#fb8072;
+  fill: #2980B9;
   opacity: .9;
 
 }
 .dotminneapolisClass{
-  fill:#ffed6f;
+  fill:#E74C3C;
   opacity: .9;
 
 }
