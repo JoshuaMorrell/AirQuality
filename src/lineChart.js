@@ -146,7 +146,6 @@ export function createLineChart(slcData, denverData, laData, minneapolisData, pm
   addLine(svg, line, xScale, yScale, margin, width, height, denverMonthly, denverData,  'denverClass', 39.7392, -104.99)
   addLine(svg, line, xScale, yScale, margin, width, height, laMonthly, laData,  'laClass', 34.05, -118.24)
   addLine(svg, line, xScale, yScale, margin, width, height, minneapolisMonthly, minneapolisData, 'minneapolisClass', 44.978, -93.265)
-
 }
 
 function addLine(svg, line, xScale, yScale, margin, width, height, dataset, dataToPass, className, lat, lng)
@@ -275,7 +274,7 @@ function addLine(svg, line, xScale, yScale, margin, width, height, dataset, data
         d3.select("#mapTooltip").transition().duration(200).style("opacity", .9);
         d3.select("#mapTooltip").html("<h5>City: " + cityString + "<h5>Date: " + monthString + "</h5><h5>Monthly Average PM: "  + d.toFixed(2) +  "</h5>")
           .style("left", (d3.event.pageX + 14) + "px")
-          .style("top", (d3.event.pageY) + "px");
+          .style("top", (d3.event.pageY - 40) + "px");
       })
       .on('mouseout', () => {
         d3.select("#mapTooltip").transition().duration(200).style("opacity", 0);

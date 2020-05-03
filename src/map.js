@@ -53,7 +53,7 @@ export function createMap(data, date, latitude, longitude, pmLevel, totalScale){
         }
 
         let projection = this.getProjection(),
-            padding = 100;
+            padding = 10;
 
         let circleScale = d3.scaleLinear()
             .domain(totalScale)
@@ -89,9 +89,7 @@ export function createMap(data, date, latitude, longitude, pmLevel, totalScale){
             .attr("id", d => {
               return 'a'+ listOfLabels[d];
             })
-            .style('opacity', 1)
-            .style('stroke', '#333333')
-            .style('stroke-width', '2px')
+            .attr('class', 'mapNorm')
             .attr('fill', d => {
                 return colorScale(listOfPm[d]);
             })
@@ -104,9 +102,14 @@ export function createMap(data, date, latitude, longitude, pmLevel, totalScale){
 
               d3.selectAll('.hoverScatter').classed('hoverScatter', false)
               d3.select('#a' + listOfLabels[d]+'scat').classed('hoverScatter', true);
+
+              d3.selectAll('.hoverMap').classed('hoverMap', false)
+              d3.select('#a' + listOfLabels[d]).classed('hoverMap', true);
             })
             .on('mouseout', () => {
               d3.selectAll('.hoverScatter').classed('hoverScatter', false)
+              d3.selectAll('.hoverMap').classed('hoverMap', false)
+
               d3.select("#mapTooltip").transition().duration(200).style("opacity", 0);
             })
             .on('click', d => console.log(d));
@@ -122,6 +125,9 @@ export function createMap(data, date, latitude, longitude, pmLevel, totalScale){
                 .style("left", (latLon.x - padding) + "px")
                 .style("top", (latLon.y - padding) + "px");
         }
+
+        // this.getPanes().overlayMouseTarget.appendChild(this.marker);
+        // google.maps.event.addDomListener(this.marker, 'mouseover', function(d){ console.log(d) });
     };
 
     // Bind our overlay to the map…

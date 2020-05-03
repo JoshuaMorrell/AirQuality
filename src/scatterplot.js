@@ -44,7 +44,7 @@ export function createScatterplot(data, date, latitude, longitude, pmLevel, pmSc
 
   // Add X axis
   var x = d3.scaleLinear()
-    .domain(elevationScale)
+    .domain([d3.min(listOfElevation), d3.max(listOfElevation)])
     .range([ 0, width]);
 
   svg.append("g")
@@ -84,13 +84,14 @@ svg.append("text")
     .append("circle")
       .attr("cx", function (d) { return x(listOfElevation[d]); } )
       .attr("cy", function (d) { return y(listOfPm[d]); } )
+      .attr("class", 'scatterNorm')
       .attr("r", 3)
       .attr('id', d => 'a' + listOfLabels[d] +'scat')
       .on('mouseover', (d) => {
         d3.select("#scatterplotTooltip").transition().duration(200).style("opacity", .9);
         d3.select("#scatterplotTooltip").html("<h5>Label: " +listOfRealLabels[d] + "<h5>Elevation: " + listOfElevation[d].toFixed(2) + "</h5><h5>PM: "  + listOfPm[d] +  "</h5>")
           .style("left", (d3.event.pageX + 14) + "px")
-          .style("top", (d3.event.pageY) + "px");
+          .style("top", (d3.event.pageY - 40) + "px");
 
         d3.selectAll('.hoverMap').classed('hoverMap', false)
         d3.select('#a' + listOfLabels[d]).classed('hoverMap', true);
@@ -106,8 +107,6 @@ svg.append("text")
 
       })
       .style('fill', d => colorScale(listOfPm[d]))
-      .style('stroke', '#333333')
-      .style('stroke-width', "1px")
-      .style("opacity", .4)
+
 
 }
