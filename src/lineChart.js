@@ -93,6 +93,10 @@ export function createLineChart(slcData, denverData, laData, minneapolisData, pm
       .domain([0, n-1])
       .range([0, width]);
 
+  var fakeXScale = d3.scaleOrdinal()
+      .domain(['January', "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
+      .range([0, width/11, 2 * width/11, 3 * width/11, 4 * width/11, 5 * width/11, 6 * width/11, 7 * width/11, 8 * width/11, 9 * width/11, 10 * width/11,  width]);
+
   var yScale = d3.scaleLinear()
       .domain([d3.min(slcMonthly.concat(laMonthly, denverMonthly, minneapolisMonthly)), d3.max(slcMonthly.concat(laMonthly, denverMonthly, minneapolisMonthly))])
       .range([height, 0]);
@@ -110,7 +114,7 @@ export function createLineChart(slcData, denverData, laData, minneapolisData, pm
   svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(xScale));
+      .call(d3.axisBottom(fakeXScale));
 
   svg.append("g")
       .attr("class", "y axis")
