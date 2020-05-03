@@ -59,6 +59,9 @@ export function createMap(data, date, latitude, longitude, pmLevel, totalScale){
             .domain(totalScale)
             .range([5, 25]).clamp(true);
 
+        let colorScale = d3.scaleSequential(d3.interpolateReds)
+            .domain(totalScale)
+
         // Draw each marker as a separate SVG element.
         // We could use a single SVG, but what size would it have?
         let marker = layer.selectAll('svg')
@@ -80,15 +83,17 @@ export function createMap(data, date, latitude, longitude, pmLevel, totalScale){
 
         // style the circle
         marker.select("circle")
-            .attr("r", d => circleScale(listOfPm[d]))
+            .attr("r", 7)
             .attr("cx", padding)
             .attr("cy", padding)
             .attr("id", d => {
               return 'a'+ listOfLabels[d];
             })
-            .style('opacity', .4)
+            .style('opacity', 1)
+            .style('stroke', '#333333')
+            .style('stroke-width', '2px')
             .attr('fill', d => {
-                return 'red';
+                return colorScale(listOfPm[d]);
             })
             .on('mouseover', (d, i) => {
               console.log("here")
