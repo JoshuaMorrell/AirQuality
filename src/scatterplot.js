@@ -39,8 +39,8 @@ export function createScatterplot(data, date, latitude, longitude, pmLevel, pmSc
     }
   }
 
-  console.log(listOfElevation);
-  console.log(listOfPm);
+  let colorScale = d3.scaleSequential(d3.interpolateReds)
+      .domain(pmScale)
 
   // Add X axis
   var x = d3.scaleLinear()
@@ -77,12 +77,20 @@ export function createScatterplot(data, date, latitude, longitude, pmLevel, pmSc
 
         d3.selectAll('.hoverMap').classed('hoverMap', false)
         d3.select('#a' + listOfLabels[d]).classed('hoverMap', true);
+
+        d3.selectAll('.hoverScatter').classed('hoverScatter', false)
+        d3.select('#a' + listOfLabels[d]+ 'scat').classed('hoverScatter', true);
       })
       .on('mouseout', (d) => {
         d3.select("#scatterplotTooltip").transition().duration(200).style("opacity", 0);
 
         d3.selectAll('.hoverMap').classed('hoverMap', false)
+        d3.selectAll('.hoverScatter').classed('hoverScatter', false)
+
       })
-      .style('fill', 'cornflowerblue')
+      .style('fill', d => colorScale(listOfPm[d]))
+      .style('stroke', '#333333')
+      .style('stroke-width', "1px")
+      .style("opacity", .4)
 
 }

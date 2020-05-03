@@ -13,7 +13,7 @@ export function createMap(data, date, latitude, longitude, pmLevel, totalScale){
   let options = {
       center: {lat: latitude, lng: longitude}, // Missoula, MT
       zoom: 10,
-      mapTypeId: google.maps.MapTypeId.TERRAIN
+      mapTypeId: 'roadmap'
       // mapTypeId: 'terrain' //This is optional and changes the type of google map shown.
   };
   //Create a new google map object
