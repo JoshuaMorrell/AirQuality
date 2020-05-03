@@ -164,6 +164,7 @@ function addLine(svg, line, xScale, yScale, margin, width, height, dataset, data
     .data(dataset)
     .enter().append("circle")
       .classed("dot" + className, true)
+      .attr("id", (d, i) => className + i)
       .attr("cx", function(d, i) { return xScale(i) })
       .attr("cy", function(d) { return yScale(d) })
       .attr("r", 5)

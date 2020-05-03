@@ -180,6 +180,8 @@ d3.json("../data/slc.json").then(function(slcD){
         createScatterplot(slcData, '2019-01-01', 40.7618, -111.891, currPm, totalPM2, totalElevationScale);
 
         createLineChart(slcData, denverData, laData, minneapolisData, currPm);
+
+        d3.select('#slcClass0').classed('selectedDot', true);
       });
     });
   });
