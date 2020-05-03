@@ -26,7 +26,7 @@ export function createLineChart(slcData, denverData, laData, minneapolisData, pm
     for(let i of slcData[j])
     {
       // console.log(i)
-      if(!isNaN(+i[pmLevel]))
+      if(i !== undefined && !isNaN(+i[pmLevel]))
       {
         currAverage += +i[pmLevel];
 
@@ -43,7 +43,7 @@ export function createLineChart(slcData, denverData, laData, minneapolisData, pm
     for(let i of minneapolisData[j])
     {
       // console.log(i)
-      if(!isNaN(+i[pmLevel]))
+      if(i !== undefined && !isNaN(+i[pmLevel]))
       {
         currAverage += +i[pmLevel];
 
@@ -60,7 +60,7 @@ export function createLineChart(slcData, denverData, laData, minneapolisData, pm
     for(let i of denverData[j])
     {
       // console.log(i)
-      if(!isNaN(+i[pmLevel]))
+      if(i !== undefined && !isNaN(+i[pmLevel]))
       {
         currAverage += +i[pmLevel];
 
@@ -77,7 +77,7 @@ export function createLineChart(slcData, denverData, laData, minneapolisData, pm
     for(let i of laData[j])
     {
       // console.log(i)
-      if(!isNaN(+i[pmLevel]))
+      if(i !== undefined && !isNaN(+i[pmLevel]))
       {
         currAverage += +i[pmLevel];
 
