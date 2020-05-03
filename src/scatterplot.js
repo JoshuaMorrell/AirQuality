@@ -1,7 +1,9 @@
 import * as d3 from "d3";
 
-export function createScatterplot(data, date, latitude, longitude, pmLevel)
+export function createScatterplot(data, date, latitude, longitude, pmLevel, pmScale, elevationScale)
 {
+
+  console.log(pmScale);
   d3.select("#scatterplot").selectAll('*').remove();
 
   // set the dimensions and margins of the graph
@@ -27,7 +29,7 @@ export function createScatterplot(data, date, latitude, longitude, pmLevel)
 
   for(let i of data[date])
   {
-    if(i[pmLevel] !== null && i.elevation !== undefined)
+    if(i !== undefined && i[pmLevel] !== null && i.elevation !== undefined)
     {
       listOfLabels.push(i.id);
 
@@ -42,7 +44,7 @@ export function createScatterplot(data, date, latitude, longitude, pmLevel)
 
   // Add X axis
   var x = d3.scaleLinear()
-    .domain([d3.min(listOfElevation), d3.max(listOfElevation)])
+    .domain(elevationScale)
     .range([ 0, width]);
 
   svg.append("g")
@@ -51,7 +53,7 @@ export function createScatterplot(data, date, latitude, longitude, pmLevel)
 
   // Add Y axis
   var y = d3.scaleLinear()
-    .domain([0, d3.max(listOfPm)])
+    .domain(pmScale)
     .range([ height, 0]);
 
   svg.append("g")

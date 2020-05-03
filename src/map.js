@@ -1,6 +1,8 @@
 import * as d3 from "d3";
 
-export function createMap(data, date, latitude, longitude, pmLevel){
+export function createMap(data, date, latitude, longitude, pmLevel, totalScale){
+
+  console.log(totalScale)
 
   d3.select("#map").selectAll('*').remove();
 
@@ -39,7 +41,7 @@ export function createMap(data, date, latitude, longitude, pmLevel){
         let listOfPm = [];
         for(let i of data[date])
         {
-          if(i[pmLevel] !== null && i.elevation !== undefined)
+          if(i !== undefined && i[pmLevel] !== null && i.elevation !== undefined)
           {
             listOfLat.push(i.lat);
             listOfLon.push(i.lon);
@@ -51,12 +53,14 @@ export function createMap(data, date, latitude, longitude, pmLevel){
         }
 
         let projection = this.getProjection(),
-            padding = 20;
+            padding = 100;
 
         let circleScale = d3.scaleLinear()
-            .domain([d3.min(listOfPm),
-                d3.max(listOfPm)])
-            .range([5, 12]).clamp(true);
+            .domain(totalScale)
+            .range([5, 25]).clamp(true);
+
+        let colorScale = d3.scaleSequential(d3.interpolateReds)
+            .domain(totalScale)
 
         // Draw each marker as a separate SVG element.
         // We could use a single SVG, but what size would it have?
@@ -79,15 +83,17 @@ export function createMap(data, date, latitude, longitude, pmLevel){
 
         // style the circle
         marker.select("circle")
-            .attr("r", d => circleScale(listOfPm[d]))
+            .attr("r", 7)
             .attr("cx", padding)
             .attr("cy", padding)
             .attr("id", d => {
               return 'a'+ listOfLabels[d];
             })
-            .style('opacity', .4)
+            .style('opacity', 1)
+            .style('stroke', '#333333')
+            .style('stroke-width', '2px')
             .attr('fill', d => {
-                return 'red';
+                return colorScale(listOfPm[d]);
             })
             .on('mouseover', (d, i) => {
               console.log("here")

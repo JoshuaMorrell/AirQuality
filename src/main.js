@@ -15,6 +15,13 @@ let denverData = undefined;
 let laData = undefined;
 let minneapolisData = undefined;
 
+let totalElevationScale = [];
+
+let totalPM1 = [];
+let totalPM2 = [];
+let totalPM10 = [];
+
+
 export function updateAll(newData, newDate, newLat, newLong)
 {
   currData = newData;
@@ -25,8 +32,21 @@ export function updateAll(newData, newDate, newLat, newLong)
 
 export function recreateMap()
 {
-  createMap(currData, currDate, currLat, currLong, currPm);
-  createScatterplot(currData, currDate, currLat, currLong, currPm);
+  if(currPm.includes('2.5'))
+  {
+    createMap(currData, currDate, currLat, currLong, currPm, totalPM2);
+    createScatterplot(currData, currDate, currLat, currLong, currPm, totalPM2, totalElevationScale);
+  }
+  else if (currPm.includes('1.0'))
+  {
+    createMap(currData, currDate, currLat, currLong, currPm, totalPM1);
+    createScatterplot(currData, currDate, currLat, currLong, currPm, totalPM1, totalElevationScale);
+  }
+  else{
+    createMap(currData, currDate, currLat, currLong, currPm, totalPM10);
+    createScatterplot(currData, currDate, currLat, currLong, currPm, totalPM10, totalElevationScale);
+  }
+
 }
 
 
@@ -34,6 +54,80 @@ d3.json("../data/slc.json").then(function(slcD){
   d3.json("../data/denver.json").then(function(denverD){
     d3.json("../data/la.json").then(function(laD){
       d3.json("../data/minneapolis.json").then(function(minneapolisD){
+
+        let listData = [slcD, denverD, laD, minneapolisD];
+
+        for(let i of listData)
+        {
+          for(let j in i)
+          {
+            for(let k in i[j])
+            {
+              if(i[j][k].elevation !== undefined && !isNaN(+i[j][k]["PM1.0 (ATM)"]) &&  i[j][k]["PM1.0 (ATM)"] !== null &&  i[j][k]["PM1.0 (ATM)"] !== undefined && +i[j][k]["PM1.0 (ATM)"] <= 100
+              && !isNaN(+i[j][k]["PM2.5 (ATM)"]) &&  i[j][k]["PM2.5 (ATM)"] !== null &&  i[j][k]["PM2.5 (ATM)"] !== undefined && +i[j][k]["PM2.5 (ATM)"] <= 100
+              && !isNaN(+i[j][k]["PM10.0 (ATM)"]) &&  i[j][k]["PM10.0 (ATM)"] !== null &&  i[j][k]["PM10.0 (ATM)"] !== undefined && +i[j][k]["PM10.0 (ATM)"] <= 100)
+              {
+                totalElevationScale.push(i[j][k].elevation)
+                totalPM1.push(i[j][k]["PM1.0 (ATM)"])
+                totalPM2.push(i[j][k]["PM2.5 (ATM)"])
+                totalPM10.push(i[j][k]["PM10.0 (ATM)"])
+              }
+              else{
+                console.log(i[j][k])
+                delete i[j][k]
+              }
+            }
+          }
+        }
+
+        console.log(totalElevationScale);
+        console.log(totalPM1);
+        console.log(totalPM2);
+        console.log(totalPM10);
+
+        // for(let i = 0; i < totalElevationScale.length; i++)
+        // {
+        //   if(totalElevationScale[i] > 1000)
+        //   {
+        //     totalElevationScale.splice(i, 1);
+        //     i--;
+        //   }
+        // }
+        //
+        // for(let i = 0; i < totalPM1.length; i++)
+        // {
+        //   if(totalPM1[i] > 1000)
+        //   {
+        //     totalPM1.splice(i, 1);
+        //     i--;
+        //   }
+        // }
+        //
+        // for(let i = 0; i < totalPM2.length; i++)
+        // {
+        //   if(totalPM2[i] > 1000)
+        //   {
+        //     totalPM2.splice(i, 1);
+        //     i--;
+        //   }
+        // }
+        //
+        // for(let i = 0; i < totalPM10.length; i++)
+        // {
+        //   if(totalPM10[i] > 1000)
+        //   {
+        //     totalPM10.splice(i, 1);
+        //     i--;
+        //   }
+        // }
+
+        console.log(Math.max(totalPM2))
+
+        totalElevationScale = [d3.min(totalElevationScale), d3.max(totalElevationScale)]
+        totalPM1 = [d3.min(totalPM1), 100]
+        totalPM2 = [d3.min(totalPM2), 100]
+        totalPM10 = [d3.min(totalPM10), 100]
+
 
         //This was code to get elevatuon. DO NOT UNCOMMENT, I will lose money to google!!!
 
@@ -82,8 +176,8 @@ d3.json("../data/slc.json").then(function(slcD){
 
         currData = slcData;
 
-        createMap(slcData, '2019-01-01', 40.7618, -111.891, currPm);
-        createScatterplot(slcData, '2019-01-01', 40.7618, -111.891, currPm);
+        createMap(slcData, '2019-01-01', 40.7618, -111.891, currPm, totalPM2);
+        createScatterplot(slcData, '2019-01-01', 40.7618, -111.891, currPm, totalPM2, totalElevationScale);
 
         createLineChart(slcData, denverData, laData, minneapolisData, currPm);
       });

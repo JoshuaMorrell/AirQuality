@@ -29,6 +29,7 @@
 }
 
 .hoverMap {
+  r: 12px;
   stroke-width: 5px;
   stroke: black;
   opacity: 1;
@@ -40,7 +41,6 @@
   stroke: black;
 }
 
-
 #dropdownDiv {
   width:1000px;
   z-index:100;
@@ -51,47 +51,47 @@
 
 .slcClass{
   fill:none;
-  stroke:cornflowerblue;
+  stroke:#8dd3c7;
 }
 
 .laClass{
   fill:none;
-  stroke:red;
+  stroke:#bebada;
 }
 
 .denverClass{
   fill:none;
-  stroke:green;
+  stroke:#fb8072;
 }
 
 .minneapolisClass{
   fill:none;
-  stroke:orange;
+  stroke:#ffed6f;
 }
 
 .dotslcClass{
-  fill:cornflowerblue;
-  opacity: .7;
+  fill:#8dd3c7;
+  opacity: .9;
 
 }
 
 .dotlaClass{
-  fill:red;
-  opacity: .7;
+  fill:#bebada;
+  opacity: .9;
 }
 .dotdenverClass{
-  fill:green;
-  opacity: .7;
+  fill:#fb8072;
+  opacity: .9;
 
 }
 .dotminneapolisClass{
-  fill:orange;
-  opacity: .7;
+  fill:#ffed6f;
+  opacity: .9;
 
 }
 .sensors svg {
-    width: 60px;
-    height: 60px;
+    width: 300px;
+    height: 300px;
     font: 10px sans-serif;
     position: absolute;
 }
