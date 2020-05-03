@@ -41,7 +41,6 @@
   stroke: black;
 }
 
-
 #dropdownDiv {
   width:1000px;
   z-index:100;
@@ -72,22 +71,22 @@
 
 .dotslcClass{
   fill:#8dd3c7;
-  opacity: .7;
+  opacity: .9;
 
 }
 
 .dotlaClass{
   fill:#bebada;
-  opacity: .7;
+  opacity: .9;
 }
 .dotdenverClass{
   fill:#fb8072;
-  opacity: .7;
+  opacity: .9;
 
 }
 .dotminneapolisClass{
   fill:#ffed6f;
-  opacity: .7;
+  opacity: .9;
 
 }
 .sensors svg {
