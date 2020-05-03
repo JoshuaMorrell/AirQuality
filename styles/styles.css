@@ -34,11 +34,11 @@
 .mapNorm {
   stroke: #333333;
   stroke-width: 1px;
-  opacity: .7
+  opacity: 1
 }
 
 .hoverMap {
-  r: 9px;
+  r: 7px;
   stroke-width: 2px;
   opacity: 1;
 }

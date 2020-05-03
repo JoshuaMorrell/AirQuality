@@ -83,7 +83,7 @@ export function createMap(data, date, latitude, longitude, pmLevel, totalScale){
 
         // style the circle
         marker.select("circle")
-            .attr("r", 7)
+            .attr("r", 5)
             .attr("cx", padding)
             .attr("cy", padding)
             .attr("id", d => {
