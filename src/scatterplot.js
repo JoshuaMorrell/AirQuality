@@ -6,7 +6,7 @@ export function createScatterplot(data, date, latitude, longitude, pmLevel)
 
   // set the dimensions and margins of the graph
   console.log(d3.select("#scatterplot").node().clientWidth)
-  var margin = {top: 10, right: 30, bottom: 30, left: 60};
+  var margin = {top: 50, right: 50, bottom: 50, left: 50};
   let width = d3.select("#scatterplot").node().clientWidth - margin.left - margin.right;
   let height = d3.select("#scatterplot").node().clientHeight - margin.top - margin.bottom;
 
@@ -21,12 +21,19 @@ export function createScatterplot(data, date, latitude, longitude, pmLevel)
 
   let listOfElevation = [];
   let listOfPm = [];
+  let listOfLabels = [];
+  let listOfRealLabels = [];
+
+
   for(let i of data[date])
   {
     if(i[pmLevel] !== null && i.elevation !== undefined)
     {
+      listOfLabels.push(i.id);
+
       listOfElevation.push(i.elevation);
       listOfPm.push(i[pmLevel]);
+      listOfRealLabels.push(i.label)
     }
   }
 
@@ -59,5 +66,21 @@ export function createScatterplot(data, date, latitude, longitude, pmLevel)
       .attr("cx", function (d) { return x(listOfElevation[d]); } )
       .attr("cy", function (d) { return y(listOfPm[d]); } )
       .attr("r", 3)
-      .style("fill", "#69b3a2")
+      .attr('id', d => 'a' + listOfLabels[d] +'scat')
+      .on('mouseover', (d) => {
+        d3.select("#scatterplotTooltip").transition().duration(200).style("opacity", .9);
+        d3.select("#scatterplotTooltip").html("<h5>Label: " +listOfRealLabels[d] + "<h5>Elevation: " + listOfElevation[d].toFixed(2) + "</h5><h5>PM: "  + listOfPm[d] +  "</h5>")
+          .style("left", (d3.event.pageX + 14) + "px")
+          .style("top", (d3.event.pageY) + "px");
+
+        d3.selectAll('.hoverMap').classed('hoverMap', false)
+        d3.select('#a' + listOfLabels[d]).classed('hoverMap', true);
+      })
+      .on('mouseout', (d) => {
+        d3.select("#scatterplotTooltip").transition().duration(200).style("opacity", 0);
+
+        d3.selectAll('.hoverMap').classed('hoverMap', false)
+      })
+      .style('fill', 'cornflowerblue')
+
 }

@@ -29,18 +29,39 @@ export function createMap(data, date, latitude, longitude, pmLevel){
 
       overlay.draw = function () {
 
+        let listOfLat = [];
+        let listOfLon = [];
+        let listOfLabels = [];
+        let listOfRealLabels = [];
+
+
+
+        let listOfPm = [];
+        for(let i of data[date])
+        {
+          if(i[pmLevel] !== null && i.elevation !== undefined)
+          {
+            listOfLat.push(i.lat);
+            listOfLon.push(i.lon);
+            listOfLabels.push(i.id);
+            listOfRealLabels.push(i.label);
+
+            listOfPm.push(i[pmLevel]);
+          }
+        }
+
         let projection = this.getProjection(),
-            padding = 10;
+            padding = 20;
 
         let circleScale = d3.scaleLinear()
-            .domain([d3.min(d3.range(0, data[date].length), d => data[date][d][pmLevel]),
-                d3.max(d3.range(0, data[date].length), d => data[date][d][pmLevel])])
-            .range([2, 7]).clamp(true);
+            .domain([d3.min(listOfPm),
+                d3.max(listOfPm)])
+            .range([5, 12]).clamp(true);
 
         // Draw each marker as a separate SVG element.
         // We could use a single SVG, but what size would it have?
         let marker = layer.selectAll('svg')
-            .data(d3.range(0, data[date].length));
+            .data(d3.range(0, listOfPm.length));
 
         let markerEnter = marker.enter().append("svg");
 
@@ -55,21 +76,39 @@ export function createMap(data, date, latitude, longitude, pmLevel){
             .each(transform)
             .attr("class", "marker");
 
+
         // style the circle
         marker.select("circle")
-            .attr("r", d => circleScale(data[date][d][pmLevel]))
+            .attr("r", d => circleScale(listOfPm[d]))
             .attr("cx", padding)
             .attr("cy", padding)
-            .style('opacity', .8)
+            .attr("id", d => {
+              return 'a'+ listOfLabels[d];
+            })
+            .style('opacity', .4)
             .attr('fill', d => {
-                return 'cornflowerblue';
+                return 'red';
+            })
+            .on('mouseover', (d, i) => {
+              console.log("here")
+              d3.select("#mapTooltip").transition().duration(200).style("opacity", .9);
+              d3.select("#mapTooltip").html("<h5>Label: " +listOfRealLabels[d] + "<h5>Latitude: " + listOfLat[d].toFixed(2) + "</h5><h5>Longitude: "  + listOfLon[d] +  "</h5><h5>PM: "  + listOfPm[d] +  "</h5>")
+                .style("left", (d3.event.pageX + 14) + "px")
+                .style("top", (d3.event.pageY) + "px");
+
+              d3.selectAll('.hoverScatter').classed('hoverScatter', false)
+              d3.select('#a' + listOfLabels[d]+'scat').classed('hoverScatter', true);
+            })
+            .on('mouseout', () => {
+              d3.selectAll('.hoverScatter').classed('hoverScatter', false)
+              d3.select("#mapTooltip").transition().duration(200).style("opacity", 0);
             })
             .on('click', d => console.log(d));
 
         //transforms the markers to the right
         // lat / lng using the projection from google maps
         function transform(d) {
-            let latLon = new google.maps.LatLng(data[date][d]["lat"], data[date][d]["lon"]);
+            let latLon = new google.maps.LatLng(listOfLat[d], listOfLon[d]);
 
             latLon = projection.fromLatLngToDivPixel(latLon);
 

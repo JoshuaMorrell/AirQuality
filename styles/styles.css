@@ -28,6 +28,19 @@
     position: absolute;
 }
 
+.hoverMap {
+  stroke-width: 5px;
+  stroke: black;
+  opacity: 1;
+}
+
+.hoverScatter {
+  r:5px;
+  stroke-width: 2px;
+  stroke: black;
+}
+
+
 #dropdownDiv {
   width:1000px;
   z-index:100;
@@ -58,20 +71,27 @@
 
 .dotslcClass{
   fill:cornflowerblue;
+  opacity: .7;
+
 }
 
 .dotlaClass{
   fill:red;
+  opacity: .7;
 }
 .dotdenverClass{
   fill:green;
+  opacity: .7;
+
 }
 .dotminneapolisClass{
   fill:orange;
+  opacity: .7;
+
 }
 .sensors svg {
     width: 60px;
-    height: 20px;
+    height: 60px;
     font: 10px sans-serif;
     position: absolute;
 }
@@ -81,4 +101,34 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
+}
+
+.selectedDot{
+  r: 8px;
+  opacity: 1;
+  stroke: #333333;
+  stroke-width:2px;
+}
+
+#mapTooltip, #scatterplotTooltip, #lineChartTooltip {
+	z-index: 1000;
+	position: absolute;
+	text-align: center;
+	margin: 2px;
+	margin-bottom: 0px;
+	font: 12px sans-serif;
+	background: lightsteelblue;
+	border: 1px;
+	border-radius: 2px;
+	pointer-events: none;
+
+	background:rgba(0,0,0,0.9);
+	border:1px solid grey;
+	border-radius:5px;
+	max-width:400px;
+	width:auto;
+	padding:4px;
+	padding-bottom: 0px;
+	color:white;
+	opacity:0;
 }

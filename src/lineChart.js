@@ -135,7 +135,7 @@ function addLine(svg, line, xScale, yScale, margin, width, height, dataset, data
   svg.selectAll(".dot")
     .data(dataset)
     .enter().append("circle")
-      .attr("class", "dot" + className)
+      .classed("dot" + className, true)
       .attr("cx", function(d, i) { return xScale(i) })
       .attr("cy", function(d) { return yScale(d) })
       .attr("r", 5)
@@ -181,7 +181,78 @@ function addLine(svg, line, xScale, yScale, margin, width, height, dataset, data
               break;
           };
 
+          d3.select('.selectedDot').classed('selectedDot', false)
+
+          d3.select(this).classed('selectedDot', true)
           updateAll(dataToPass, monthString, lat, lng);
           recreateMap();
+      })
+      .on('mouseover', (d, i) =>
+      {
+        let monthString = '';
+        switch(i){
+          case 0:
+            monthString = '2019-01-01';
+            break;
+          case 1:
+            monthString = '2019-02-01';
+            break;
+          case 2:
+            monthString = '2019-03-01';
+            break;
+          case 3:
+            monthString = '2019-04-01';
+            break;
+          case 4:
+            monthString = '2019-05-01';
+            break;
+          case 5:
+            monthString = '2019-06-01';
+            break;
+          case 6:
+            monthString = '2019-07-01';
+            break;
+          case 7:
+            monthString = '2019-08-01';
+            break;
+          case 8:
+            monthString = '2019-09-01';
+            break;
+          case 9:
+            monthString = '2019-10-01';
+            break;
+          case 10:
+            monthString = '2019-11-01';
+            break;
+          case 11:
+            monthString = '2019-12-01';
+            break;
+        };
+
+        let cityString = "";
+
+        switch(className)
+        {
+          case 'slcClass':
+            cityString = "Salt Lake City";
+            break;
+          case 'denverClass':
+            cityString = "Denver";
+            break;
+          case 'laClass':
+            cityString = "Los Angeles";
+            break;
+          case 'minneapolisClass':
+            cityString = "Minneapolis";
+            break;
+        }
+
+        d3.select("#mapTooltip").transition().duration(200).style("opacity", .9);
+        d3.select("#mapTooltip").html("<h5>City: " + cityString + "<h5>Date: " + monthString + "</h5><h5>Monthly Average PM: "  + d.toFixed(2) +  "</h5>")
+          .style("left", (d3.event.pageX + 14) + "px")
+          .style("top", (d3.event.pageY) + "px");
+      })
+      .on('mouseout', () => {
+        d3.select("#mapTooltip").transition().duration(200).style("opacity", 0);
       })
 }
